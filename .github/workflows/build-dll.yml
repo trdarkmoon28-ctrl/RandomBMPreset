@@ -1,0 +1,27 @@
+name: Build RandomBMPreset DLL
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3
+
+    - name: Build solution
+      run: msbuild RandomBMPreset.sln /p:Configuration=Release /p:Platform=x64
+
+    - name: Upload DLL
+      uses: actions/upload-artifact@v4
+      with:
+        name: RandomBMPreset-DLL
+        path: |
+          **/Release/*.dll
