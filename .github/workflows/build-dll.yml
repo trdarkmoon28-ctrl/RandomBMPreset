@@ -2,31 +2,23 @@ name: Build RandomBMPreset DLL
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    # 1️⃣ Repo’yu çek
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    # 2️⃣ BakkesMod SDK’yı indir
     - name: Download BakkesMod SDK
       run: git clone https://github.com/bakkesmodorg/BakkesModSDK.git bakkesmod
 
-    # 3️⃣ MSBuild ortamını hazırla
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.3
 
-    # 4️⃣ DLL’i build et
     - name: Build solution
-      run: msbuild RandomBMPreset.sln /p:Configuration=Release /p:Platform=Win32
+      run: msbuild RandomBMPreset.sln
 
-    # 5️⃣ DLL’i yükle (indirilebilir)
     - name: Upload DLL
       uses: actions/upload-artifact@v4
       with:
